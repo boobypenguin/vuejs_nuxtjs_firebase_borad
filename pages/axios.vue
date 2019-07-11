@@ -2,67 +2,41 @@
   <section class="container">
     <h1>{{title}}</h1>
     <p>{{message}}</p>
-    <table>
-      <tr>
-        <th>Email</th>
-        <td>
-          <input v-model="email" />
-        </td>
-        <td>
-          <button @click="delData">Click</button>
-        </td>
-      </tr>
-    </table>
-    <hr />
-    <ul v-for="(data, key) in json_data">
-      <li>
-        <strong>{{key}}</strong>
-        <br />
-        {{data}}
-      </li>
-    </ul>
   </section>
 </template>
 
 
 <script>
-const axios = require("axios");
-
-let url = "https://boobypenguin-vuejs-nuxtjs-app.firebaseio.com/person"; //★
+import firebase from "firebase";
 
 export default {
   data: function() {
     return {
-      title: "Axios",
-      email: "",
-      message: "axios sample.",
-      json_data: {}
+      title: "Auth",
+      message: "this is message."
     };
   },
-  methods: {
-    delData: function() {
-      let del_url = url + "/" + this.email + ".json";
-
-      axios.delete(del_url).then(re => {
-        this.message = this.email + "を削除しました。";
-        this.email = "";
-        this.getData();
-      });
-    },
-    getData: function() {
-      axios
-        .get(url + ".json")
-        .then(res => {
-          this.json_data = res.data;
-        })
-        .catch(error => {
-          this.message = "ERROR!";
-          this.json_data = {};
-        });
-    }
-  },
   created: function() {
-    this.getData();
+    var config = {
+      // ●各自の設定を記述
+      apiKey: "AIzaSyCSQGMXA1e4JB46Q4hxSWSsuR8okac12cM",
+      authDomain: "boobypenguin-vuejs-nuxtjs-app.firebaseapp.com",
+      databaseURL: "https://boobypenguin-vuejs-nuxtjs-app.firebaseio.com",
+      projectId: "boobypenguin-vuejs-nuxtjs-app",
+      storageBucket: "",
+      messagingSenderId: "291797488686",
+      appId: "1:291797488686:web:4db64352946c0a0c"
+    };
+    firebase.initializeApp(config);
+
+    var provider = new firebase.auth.GoogleAuthProvider();
+    var self = this;
+    firebase
+      .auth()
+      .signInWithPopup(provider)
+      .then(function(result) {
+        self.message = result.user.displayName + ", " + result.user.email;
+      });
   }
 };
 </script>
