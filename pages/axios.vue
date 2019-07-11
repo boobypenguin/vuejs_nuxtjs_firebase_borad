@@ -2,11 +2,24 @@
   <section class="container">
     <h1>{{title}}</h1>
     <p>{{message}}</p>
-    <input v-model="find" />
-    <button @click="getData">Click</button>
+    <table>
+      <tr>
+        <th>Email</th>
+        <td>
+          <input v-model="email" />
+        </td>
+        <td>
+          <button @click="delData">Click</button>
+        </td>
+      </tr>
+    </table>
     <hr />
-    <ul>
-      <li>{{json_data}}</li>
+    <ul v-for="(data, key) in json_data">
+      <li>
+        <strong>{{key}}</strong>
+        <br />
+        {{data}}
+      </li>
     </ul>
   </section>
 </template>
@@ -15,24 +28,31 @@
 <script>
 const axios = require("axios");
 
-let url = "https://boobypenguin-vuejs-nuxtjs-app.firebaseio.com/person/"; //★
+let url = "https://boobypenguin-vuejs-nuxtjs-app.firebaseio.com/person"; //★
 
 export default {
   data: function() {
     return {
       title: "Axios",
-      find: "",
+      email: "",
       message: "axios sample.",
       json_data: {}
     };
   },
   methods: {
+    delData: function() {
+      let del_url = url + "/" + this.email + ".json";
+
+      axios.delete(del_url).then(re => {
+        this.message = this.email + "を削除しました。";
+        this.email = "";
+        this.getData();
+      });
+    },
     getData: function() {
-      let id_url = url + this.find + ".json";
       axios
-        .get(id_url)
+        .get(url + ".json")
         .then(res => {
-          this.message = "get ID=" + this.find;
           this.json_data = res.data;
         })
         .catch(error => {
@@ -40,6 +60,9 @@ export default {
           this.json_data = {};
         });
     }
+  },
+  created: function() {
+    this.getData();
   }
 };
 </script>
