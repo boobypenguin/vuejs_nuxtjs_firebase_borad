@@ -2,8 +2,11 @@
   <section class="container">
     <h1>{{title}}</h1>
     <p>{{message}}</p>
-    <ul v-for="(data, key) in json_data">
-      <li>{{data.name}} ({{data.age}}) [{{key}}]</li>
+    <input v-model="find" />
+    <button @click="getData">Click</button>
+    <hr />
+    <ul>
+      <li>{{json_data}}</li>
     </ul>
   </section>
 </template>
@@ -12,18 +15,31 @@
 <script>
 const axios = require("axios");
 
-let url = "https://プロジェクト.firebaseio.com/person.json"; //★
+let url = "https://boobypenguin-vuejs-nuxtjs-app.firebaseio.com/person/"; //★
 
 export default {
   data: function() {
     return {
       title: "Axios",
-      message: "axios sample."
+      find: "",
+      message: "axios sample.",
+      json_data: {}
     };
   },
-  asyncData: async function() {
-    let result = await axios.get(url);
-    return { json_data: result.data };
+  methods: {
+    getData: function() {
+      let id_url = url + this.find + ".json";
+      axios
+        .get(id_url)
+        .then(res => {
+          this.message = "get ID=" + this.find;
+          this.json_data = res.data;
+        })
+        .catch(error => {
+          this.message = "ERROR!";
+          this.json_data = {};
+        });
+    }
   }
 };
 </script>
