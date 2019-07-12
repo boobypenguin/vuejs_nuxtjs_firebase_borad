@@ -35,13 +35,13 @@ const axios = require("axios");
 // ※configの内容は、それぞれの環境に合わせて設定
 // （FirebaseのAuthenticationの「ウェブ設定」からコピー＆ペースト）
 let config = {
-  apiKey: "AIzaSyCSQGMXA1e4JB46Q4hxSWSsuR8okac12cM",
-  authDomain: "boobypenguin-vuejs-nuxtjs-app.firebaseapp.com",
-  databaseURL: "https://boobypenguin-vuejs-nuxtjs-app.firebaseio.com",
-  projectId: "boobypenguin-vuejs-nuxtjs-app",
-  storageBucket: "",
-  messagingSenderId: "291797488686",
-  appId: "1:291797488686:web:4db64352946c0a0c"
+  apiKey: "AIzaSyC-5QuzovDqD6iS8-Yqyl3bu2gShVzy0cg",
+  authDomain: "boobypenguin-angular-app.firebaseapp.com",
+  databaseURL: "https://boobypenguin-angular-app.firebaseio.com",
+  projectId: "boobypenguin-angular-app",
+  storageBucket: "boobypenguin-angular-app.appspot.com",
+  messagingSenderId: "175259266858",
+  appId: "1:175259266858:web:0207ac956c619d95"
 };
 firebase.initializeApp(config);
 
